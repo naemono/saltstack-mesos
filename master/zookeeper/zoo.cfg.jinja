@@ -1,0 +1,11 @@
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/var/lib/zookeeper
+clientPort=2181
+
+{% set i = 0 %}
+{% for host in hosts %}
+{% set i = i + 1 %}
+server.{{i}}={{host.split(':')[0]}}:2888:3888
+{% endfor %}

@@ -11,3 +11,10 @@ include:
 {% elif 'roles' in grains and 'master' in grains['roles'] %}
   - .master
 {% endif %}
+
+# setting up /etc/hosts file so all the services can speak with each with using hostnames
+{% for host, value in salt['mine.get']('app:mesos', 'network.interfaces', expr_form='grain').items() %}
+{{ host }}:
+  host.present:
+    - ip: {{ value['eth0']['inet'][0]['address'] }}
+{% endfor %}
